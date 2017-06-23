@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Customer Info</string>
+    <string name="admin" translatable="true">مدير</string>
+    <string name="user" translatable="true">تسجيل دخول</string>
+    <string name="signup" translatable="true">مستخدم جديد</string>
+    <string name="email" translatable="true">البريد الالكترونى</string>
+    <string name="password" translatable="true">كلمة المرور</string>
+    <string name="dialog_login" translatable="true">تسجيل</string>
+    <string name="cancel" translatable="true">ألغاء</string>
+    <string name="title_activity_login">تسجيل الدخول</string>
+    <string name="wrong_login">البريد الالكترونى او كلمة المرور غير صحيح</string>
+    <string name="developerid">OTRQYK3p5vNBWKjdrKF4YFQ52Mv1</string>
+    <string name="adminid">QF3tTQdz91c86LcRgoM40Cw2HKg2</string>
+
+
+</resources>

@@ -1,0 +1,4 @@
+email= customerinfo82@gmail.com
+pass= com.fromscratch.android.customerinfo
+email=customerinfoad@gmail.com
+pass=adminuserpass
