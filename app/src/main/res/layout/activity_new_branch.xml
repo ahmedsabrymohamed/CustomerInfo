@@ -5,25 +5,23 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/wrong_log"
+        android:id="@+id/noaddress_log"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/wrong_login"
+        android:text="@string/noaddress"
         android:textColor="#ff0008"
         android:visibility="invisible" />
 
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/branch_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="4dp"
-        android:fontFamily="sans-serif"
-        android:hint="@string/password"
-        android:inputType="textPassword"
+        android:hint="@string/address"
         android:textAlignment="viewEnd" />
 
     <LinearLayout
@@ -36,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="cancel_login"
+            android:onClick="cancel_login2"
             android:text="@string/cancel"
             android:textAlignment="center"
             android:textSize="20sp" />
@@ -46,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="login_butt"
+            android:onClick="create"
             android:text="@string/dialog_login"
             android:textAlignment="center"
             android:textSize="20sp" />
