@@ -32,16 +32,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="cancel_login"
-            android:text="@string/cancel"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <Button
             android:id="@+id/login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

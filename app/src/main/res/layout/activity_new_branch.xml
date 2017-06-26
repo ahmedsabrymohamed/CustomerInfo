@@ -30,7 +30,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/cancel_button"
+            android:id="@+id/New_Branch_cancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,12 +40,23 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/NewBranch__delete_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="delete2"
+            android:text="@string/delete"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/New_Branch_login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="create"
-            android:text="@string/dialog_login"
+            android:text="@string/add"
             android:textAlignment="center"
             android:textSize="20sp" />
     </LinearLayout>

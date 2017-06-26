@@ -1,21 +1,28 @@
 package com.fromscratch.android.customerinfo;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Map;
 
-public class login extends Activity {
+
+public class login extends AppCompatActivity {
 
     TextView wrong;
     EditText password;
     private DatabaseReference mDatabase;
-
+    private Map<String,String> branches;
+    boolean login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +30,7 @@ public class login extends Activity {
         password = (EditText) findViewById(R.id.password);
         wrong = (TextView) findViewById(R.id.wrong_log);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Branches");
+
     }
 
 
@@ -34,15 +42,68 @@ public class login extends Activity {
 
 
     public void login_butt(View view) {
+        login=false;
+        if(password.getText().toString().trim().equals("123abc")){
+            login=true;
+            Intent intent = new Intent(getBaseContext(), Admin.class);
+            startActivity(intent);
+            //finish_();
+        }
+        mDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Branch mBranch =dataSnapshot.getValue(Branch.class);
 
+                //Log.d("ahmed", "onChildAdded2: "+"   "+password.getText().toString());
+
+                if(password.getText().toString().trim().equals(mBranch.password.toString().trim()))
+                {
+                   // Log.d("ahmed", "onChildAdded: "+mBranch.password+"   "+password.getText().toString());
+                    login=true;
+                    Intent intent = new Intent(getBaseContext(), CustomersActivity.class);
+                    intent.putExtra("branch_address", mBranch.address);
+                    intent.putExtra("admin",false);
+                    startActivity(intent);
+                    wrong.setVisibility(View.GONE);
+                    //finish_();
+                }
+                if(login==false)
+                    wrong.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
-    public void cancel_login(View view) {
+   /* public void cancel_login(View view) {
         this.finish();
 
-    }
+    }*/
 
+    public void finish_()
+    {
+        this.finish();
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 

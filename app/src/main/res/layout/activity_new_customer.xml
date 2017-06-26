@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fromscratch.android.customerinfo.NewCustomerActivity">
+
+    <LinearLayout
+        android:id="@+id/activity_new_customer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+
+        <TextView
+            android:id="@+id/noCustomer_name_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/noCustomer_address"
+            android:textColor="#ff0008"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/addCustomer__name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:hint="@string/Customer_name"
+            android:textAlignment="viewEnd" />
+
+        <TextView
+            android:id="@+id/noCustomer_phone_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/noCustomer_phone"
+            android:textColor="#ff0008"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/addCustomer_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:hint="@string/Customer_phone"
+            android:textAlignment="viewEnd" />
+
+        <TextView
+            android:id="@+id/noCustomer_address_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/noCustomer_address"
+            android:textColor="#ff0008"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/addCustomer_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:hint="@string/Customer_address"
+            android:textAlignment="viewEnd" />
+
+        <TextView
+            android:id="@+id/noCustomer_branch_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/noaddress"
+            android:textColor="#ff0008"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/addCustomer_branch_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:hint="@string/address"
+            android:textAlignment="viewEnd"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/NewCustomer__cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="cancel_login3"
+                android:text="@string/cancel"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+            <Button
+                android:id="@+id/NewCustomer__delete_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="delete"
+                android:text="@string/delete"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/NewCustomer_login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="create2"
+                android:text="@string/dialog_login"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

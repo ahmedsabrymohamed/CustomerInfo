@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Customer Info</string>
     <string name="admin" translatable="true">مدير</string>
-    <string name="user" translatable="true">تسجيل دخول</string>
+    <string name="user" translatable="true">العملاء</string>
+    <string name="branches" translatable="true">الفروع</string>
     <string name="signup" translatable="true">فرع جديد</string>
     <string name="password" translatable="true">كلمة المرور</string>
     <string name="dialog_login" translatable="true">تسجيل</string>
@@ -9,6 +10,17 @@
     <string name="title_activity_login">تسجيل الدخول</string>
     <string name="wrong_login"> كلمة المرور غير صحيحة</string>
     <string name="noaddress">عنوان الفرع مطلوب</string>
+    <string name="noCustomer_address">عنوان العميل مطلوب</string>
+    <string name="noCustomer_name">اسم العميل مطلوب</string>
+    <string name="noCustomer_phone">تليفون العميل مطلوب</string>
     <string name="address">عنوان الفرع</string>
+    <string name="Customer_address">عنوان العميل</string>
+    <string name="Customer_phone">التليفون</string>
+    <string name="Customer_name">الأسم</string>
+    <string name="title_activity_customers">customers</string>
+    <string name="no_data">لايوجد اى عملاء</string>
+    <string name="nobranches_data">لايوجد اى فروع</string>
+    <string name="add">حفظ</string>
+    <string name="delete">حذف</string>
 
 </resources>

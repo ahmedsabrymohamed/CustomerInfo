@@ -1,23 +1,30 @@
 package com.fromscratch.android.customerinfo;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Random;
 
-public class NewBranch extends Activity {
+public class NewBranch extends AppCompatActivity {
 
-    EditText branchaddress;
-    TextView noaddress;
-    Branches mbranch;
-
+    private EditText branchaddress;
+    private TextView noaddress;
+    private Branch mbranch;
+    private Button delete2;
+    private String key;
+    private String pass;
+    private boolean update;
+    private String dialog_pass;
     private DatabaseReference mDatabase;
 
     @Override
@@ -26,22 +33,49 @@ public class NewBranch extends Activity {
         setContentView(R.layout.activity_new_branch);
         branchaddress = (EditText) findViewById(R.id.branch_address);
         noaddress = (TextView) findViewById(R.id.noaddress_log);
+        delete2=(Button)findViewById(R.id.NewBranch__delete_button);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Branches");
+        Intent intent = getIntent();
+        update=intent.getBooleanExtra("update_and_delete",false);
 
+        if(update)
+        {
+            delete2.setVisibility(View.VISIBLE);
+            branchaddress.setText(intent.getStringExtra("Branchtxt_address"));
+            pass=intent.getStringExtra("Branchtxt_password");
+            key=intent.getStringExtra("Branchtxt_key");
+        }
     }
 
     public void create(View view) {
         if(branchaddress.getText().toString().trim().length()!=0){
 
-            mbranch=new Branches(branchaddress.getText().toString(),generatepass());
 
-            mDatabase.push().setValue(mbranch);
+            if(update)
+            {
+                mbranch=new Branch(branchaddress.getText().toString(),pass);
+                mDatabase.child(key).setValue(mbranch);
+            }
+            else
+            {
+                pass = generatepass();
+                mbranch = new Branch(branchaddress.getText().toString(), pass);
 
+                mDatabase.push().setValue(mbranch);
+            }
 
+            branchaddress.getText().clear();
+
+            Toast toast=Toast.makeText(this,"العمليه تمت بنجاح",Toast.LENGTH_LONG);
+            toast.show();
+            Intent intent = new Intent(getBaseContext(), dialog.class);
+            intent.putExtra("pass", pass);
+            startActivity(intent);
         }
         else{
             noaddress.setVisibility(View.VISIBLE);
         }
+
     }
 
     public void cancel_login2(View view) {
@@ -57,6 +91,15 @@ public class NewBranch extends Activity {
             outState.putInt("noaddressvis", 0);
         }
         super.onSaveInstanceState(outState);
+
+    }
+
+
+    public void  delete2 (View view){
+        mDatabase.child(key).removeValue();
+        branchaddress.getText().clear();
+        Toast toast=Toast.makeText(this,"العمليه تمت بنجاح",Toast.LENGTH_LONG);
+        toast.show();
 
     }
 

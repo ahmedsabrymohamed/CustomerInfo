@@ -9,19 +9,20 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class Customer {
 
 
+        public String phone;
         public String name;
         public String address;
-        public String phone;
-        public String savetime;
+        public String branch_address;
+        public String key;
         public Customer() {
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public Customer(String name, String address, String phone, String savetime) {
+        public Customer(String name, String address, String phone, String branch_address) {
             this.name = name;
             this.address = address;
             this.phone=phone;
-            this.savetime=savetime;
+            this.branch_address=branch_address;
         }
 
 

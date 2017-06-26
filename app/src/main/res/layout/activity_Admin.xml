@@ -4,7 +4,7 @@
     android:id="@+id/activity_authorization"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fromscratch.android.customerinfo.Authorization">
+    tools:context="com.fromscratch.android.customerinfo.Admin">
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:backgroundTint="?attr/colorPrimaryDark"
             android:clickable="true"
-            android:text="@string/signup"
+            android:text="@string/branches"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="#ffff"
             android:textStyle="bold" />
