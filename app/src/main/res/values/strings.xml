@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Customer Info</string>
+    <string name="app_name">المروة للمقاولات و الأستثمار العقارى</string>
     <string name="admin" translatable="true">مدير</string>
     <string name="user" translatable="true">العملاء</string>
     <string name="branches" translatable="true">الفروع</string>
@@ -22,5 +22,7 @@
     <string name="nobranches_data">لايوجد اى فروع</string>
     <string name="add">حفظ</string>
     <string name="delete">حذف</string>
+    <string name="change">تعديل</string>
+    <string name="Customers">العملاء</string>
 
 </resources>

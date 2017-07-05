@@ -2,7 +2,6 @@ package com.fromscratch.android.customerinfo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,18 +18,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomersActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private FloatingActionButton add;
+
     private TextView noCustomers;
     private DatabaseReference mDatabaseReference;
     private ListView customer_list;
     private ArrayList<Customer>customers;
+    private ArrayList<Customer>branchcustomers;
+    private ArrayList<Branch>data2objects;
+    private ArrayList<String> data2;
     private ArrayList<String>customersnames;
     private ArrayAdapter<String>customerArrayAdapter;
     private String branch_address;
     private boolean admin;
+    private Map branches_map;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,22 +43,44 @@ public class CustomersActivity extends AppCompatActivity implements AdapterView.
 
         noCustomers=(TextView)findViewById(R.id.noCustomers);
 
-        add=(FloatingActionButton)findViewById(R.id.add_Customer);
+
 
         mDatabaseReference= FirebaseDatabase.getInstance().getReference().child("Customers");
 
         customer_list=(ListView)findViewById(R.id.list);
-        customers=new ArrayList<Customer>();
-        customersnames=new ArrayList<String>();
-        customerArrayAdapter=new ArrayAdapter<String>(this,R.layout.customer_item,customersnames);
-        customer_list.setAdapter(customerArrayAdapter);
-        customer_list.setOnItemClickListener(this);
-        Intent intent = getIntent();
-        admin=intent.getBooleanExtra("admin",false);
-        Log.d("ahmed", "onCreate cc: "+admin);
-        if(admin==false)
-        branch_address=intent.getStringExtra("branch_address");
 
+        branches_map=new HashMap();
+
+        customers=new ArrayList<>();
+        branchcustomers=new ArrayList<>();
+
+        customersnames=new ArrayList<>();
+
+        customerArrayAdapter=new ArrayAdapter<>(this,R.layout.customer_item,customersnames);
+
+        customer_list.setAdapter(customerArrayAdapter);
+
+        customer_list.setOnItemClickListener(this);
+
+        Intent intent = getIntent();
+
+        Bundle bundle = getIntent().getExtras();
+
+        admin=intent.getBooleanExtra("admin",false);
+
+        data2objects=bundle.getParcelableArrayList("data2objects");
+
+        data2  = bundle.getStringArrayList("data2");
+
+        for(int i=0;i<data2objects.size();i++)
+        {
+            branches_map.put(data2objects.get(i).key,data2objects.get(i).address);
+           // Log.d("ahmed", "onCreate: "+data2objects.get(i).key+"       "+data2objects.get(i).address);
+        }
+
+  //  if(admin==false)
+        branch_address=(admin?intent.getStringExtra("Branchtxt_key"):intent.getStringExtra("branch_address"));
+        Log.d("ahmed", "onCreate: "+branch_address);
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -61,13 +88,22 @@ public class CustomersActivity extends AppCompatActivity implements AdapterView.
                 Customer mCustomer=dataSnapshot.getValue(Customer.class);
                 mCustomer.key=dataSnapshot.getKey();
                 customers.add(mCustomer);
-                customersnames.add("الأسم: "+mCustomer.name+"\n"+
-                "ت: "+mCustomer.phone+"\n"+
-                "العنوان: "+mCustomer.address+"\n"+
-                "الفرع: "+mCustomer.branch_address);
+                //Log.d("ahmed", "onChildAdded: "+mCustomer.branch_address.trim()+"     "+branch_address.trim());
+                if(branch_address.trim().equals(mCustomer.branch_address.trim()))
+                {
+                    branchcustomers.add(mCustomer);
+                    customersnames.add("الأسم: "+mCustomer.name+"\n"+
+                            "ت: "    +mCustomer.phone+"\n"+
+                            "العنوان: "+mCustomer.address+"\n"+
+                            "الفرع: "+branches_map.get(mCustomer.branch_address));
+                }
+                if(branches_map.get(mCustomer.branch_address)==null)
+                    mDatabaseReference.child(mCustomer.key).removeValue();
+              //  Log.d("ahmed", "onChildAdded: "+branchcustomers.size()+"       "+branch_address);
+
                 customerArrayAdapter.notifyDataSetChanged();
 
-                if(customers.isEmpty()==false)
+                if(branchcustomers.isEmpty()==false)
                 {
                     noCustomers.setVisibility(View.GONE);
 
@@ -81,18 +117,46 @@ public class CustomersActivity extends AppCompatActivity implements AdapterView.
                 Customer mCustomer=dataSnapshot.getValue(Customer.class);
                 mCustomer.key=dataSnapshot.getKey().toString();
                 int i;
+                //all data change
+                Log.d("ahmed", "onChildChanged: "+branchcustomers.size()+"       "+branch_address);
                 for( i=0;i<customers.size();i++)
                     if(mCustomer.key.equals(customers.get(i).key))
+                    {
+                        customers.remove(i);
+                        customers.add(i,mCustomer);
                         break;
-                //Log.d("ahmed", "onChildChanged: "+i);
-                customers.remove(i);
-                customers.add(i,mCustomer);
-                customersnames.remove(i);
-                customersnames.add(i,"الأسم: "+mCustomer.name+"\n"+
-                        "ت: "+mCustomer.phone+"\n"+
-                        "العنوان: "+mCustomer.address+"\n"+
-                        "الفرع: "+mCustomer.branch_address);
+                    }
+
+
+
+                //branch data change
+
+                for( i=0;i<branchcustomers.size();i++)
+                    if(mCustomer.key.equals(branchcustomers.get(i).key))
+                    {
+                        branchcustomers.remove(i);
+
+                        customersnames.remove(i);
+                        break;
+                    }
+
+
+
+                if(branch_address.trim().equals(mCustomer.branch_address.trim()))
+                {
+                    customersnames.add(i,"الأسم: "+mCustomer.name+"\n"+
+                            "ت: "+mCustomer.phone+"\n"+
+                            "العنوان: "+mCustomer.address+"\n"+
+                            "الفرع: "+branches_map.get(mCustomer.branch_address));
+                    branchcustomers.add(i,mCustomer);
+                }
+
                 customerArrayAdapter.notifyDataSetChanged();
+                if(branchcustomers.isEmpty())
+                {
+                    noCustomers.setVisibility(View.VISIBLE);
+
+                }
             }
 
             @Override
@@ -104,9 +168,19 @@ public class CustomersActivity extends AppCompatActivity implements AdapterView.
                     if(mCustomer.key.equals(customers.get(i).key))
                         break;
                 customers.remove(i);
-                customersnames.remove(i);
+
+               // Log.d("ahmed", "onChildAdded: "+branchcustomers.size());
+                for( i=0;i<branchcustomers.size();i++)
+                    if(mCustomer.key.equals(branchcustomers.get(i).key))
+                    {
+                        branchcustomers.remove(i);
+                        customersnames.remove(i);
+                        break;
+                    }
+
+
                 customerArrayAdapter.notifyDataSetChanged();
-                if(customers.isEmpty())
+                if(branchcustomers.isEmpty())
                 {
                     noCustomers.setVisibility(View.VISIBLE);
 
@@ -156,8 +230,13 @@ public class CustomersActivity extends AppCompatActivity implements AdapterView.
     {
         Intent intent = new Intent(getBaseContext(), NewCustomerActivity.class);
 
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("data", customers);
+        bundle.putParcelableArrayList("data2objects", data2objects);
+        bundle.putStringArrayList("data2",data2);
+        intent.putExtras(bundle);
         intent.putExtra("update_and_delete",false);
-        if(admin==true)
+        if(admin)
         intent.putExtra("admin",true);
         else
         {
@@ -169,16 +248,22 @@ public class CustomersActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-       // Log.d("ahmed", "onItemClick: ");
         if(admin) {
 
             Intent intent = new Intent(getBaseContext(), NewCustomerActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("data", customers);
+            bundle.putParcelableArrayList("data2objects", data2objects);
+            bundle.putStringArrayList("data2",data2);
+
+            intent.putExtras(bundle);
             intent.putExtra("update_and_delete", true);
-            intent.putExtra("Coustomertxt_key", customers.get(position).key);
-            intent.putExtra("Coustomertxt_name", customers.get(position).name);
-            intent.putExtra("Coustomertxt_phone", customers.get(position).phone);
-            intent.putExtra("Coustomertxt_address", customers.get(position).address);
-            intent.putExtra("Coustomertxt_branch_address", customers.get(position).branch_address);
+            intent.putExtra("Coustomertxt_key", branchcustomers.get(position).key);
+            intent.putExtra("Coustomertxt_name", branchcustomers.get(position).name);
+            intent.putExtra("Coustomertxt_phone", branchcustomers.get(position).phone);
+            intent.putExtra("Coustomertxt_address", branchcustomers.get(position).address);
+            intent.putExtra("Coustomertxt_branch_address", branchcustomers.get(position).branch_address);
+ //           Log.d("ahmed", "onItemClick: "+customers.get(position).branch_address);
             startActivity(intent);
 
         }

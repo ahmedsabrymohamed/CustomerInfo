@@ -13,7 +13,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 
 public class login extends AppCompatActivity {
@@ -21,8 +21,9 @@ public class login extends AppCompatActivity {
     TextView wrong;
     EditText password;
     private DatabaseReference mDatabase;
-    private Map<String,String> branches;
+    private ArrayList<Branch> branches;
     boolean login;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,41 +36,17 @@ public class login extends AppCompatActivity {
 
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
+    protected void onStart()
+    {
+        branches = new ArrayList<>();
 
 
-
-    public void login_butt(View view) {
-        login=false;
-        if(password.getText().toString().trim().equals("123abc")){
-            login=true;
-            Intent intent = new Intent(getBaseContext(), Admin.class);
-            startActivity(intent);
-            //finish_();
-        }
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Branch mBranch =dataSnapshot.getValue(Branch.class);
-
-                //Log.d("ahmed", "onChildAdded2: "+"   "+password.getText().toString());
-
-                if(password.getText().toString().trim().equals(mBranch.password.toString().trim()))
-                {
-                   // Log.d("ahmed", "onChildAdded: "+mBranch.password+"   "+password.getText().toString());
-                    login=true;
-                    Intent intent = new Intent(getBaseContext(), CustomersActivity.class);
-                    intent.putExtra("branch_address", mBranch.address);
-                    intent.putExtra("admin",false);
-                    startActivity(intent);
-                    wrong.setVisibility(View.GONE);
-                    //finish_();
-                }
-                if(login==false)
-                    wrong.setVisibility(View.VISIBLE);
-
+                Branch mBranch = dataSnapshot.getValue(Branch.class);
+                mBranch.key = dataSnapshot.getKey();
+                branches.add(mBranch);
             }
 
             @Override
@@ -92,7 +69,35 @@ public class login extends AppCompatActivity {
 
             }
         });
+        super.onStart();
+    }
 
+
+    public void login_butt(View view) {
+        login = false;
+        if (password.getText().toString().trim().equals("123abc")) {
+            login = true;
+            Intent intent = new Intent(getBaseContext(), BranchesActivity.class);
+            startActivity(intent);
+            //finish_();
+        }
+
+        for (Branch mBranch : branches)
+            if (password.getText().toString().trim().equals(mBranch.password.toString().trim())) {
+                //Log.d("ahmed", "onChildAdded: " + mBranch.password + "   " + password.getText().toString());
+                login = true;
+                Intent intent = new Intent(getBaseContext(), CustomersActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putParcelableArrayList("data2objects", branches);
+                intent.putExtras(mBundle);
+                intent.putExtra("branch_address", mBranch.key);
+                intent.putExtra("admin", false);
+                startActivity(intent);
+                wrong.setVisibility(View.GONE);
+                //finish_();
+            }
+        if (login == false)
+            wrong.setVisibility(View.VISIBLE);
     }
 
    /* public void cancel_login(View view) {
@@ -100,20 +105,17 @@ public class login extends AppCompatActivity {
 
     }*/
 
-    public void finish_()
-    {
+    public void finish_() {
         this.finish();
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        if(wrong.getVisibility()==View.VISIBLE)
-        {
-            outState.putInt("wrongvis",1);
-        }
-        else
-        {
-            outState.putInt("wrongvis",0);
+        if (wrong.getVisibility() == View.VISIBLE) {
+            outState.putInt("wrongvis", 1);
+        } else {
+            outState.putInt("wrongvis", 0);
         }
         super.onSaveInstanceState(outState);
 

@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        app:backgroundTint="?android:attr/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:fabSize="normal"
         app:rippleColor="?attr/colorPrimaryDark"
         app:srcCompat="@drawable/add"

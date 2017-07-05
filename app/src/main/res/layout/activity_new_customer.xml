@@ -81,17 +81,14 @@
             android:textColor="#ff0008"
             android:visibility="invisible" />
 
-        <EditText
+
+        <Spinner
             android:id="@+id/addCustomer_branch_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
-            android:hint="@string/address"
-            android:textAlignment="viewEnd"
-            android:visibility="visible" />
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp"
+            android:paddingTop="4dp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,6 +104,7 @@
                 android:text="@string/cancel"
                 android:textAlignment="center"
                 android:textSize="20sp" />
+
             <Button
                 android:id="@+id/NewCustomer__delete_button"
                 android:layout_width="0dp"
@@ -116,7 +114,7 @@
                 android:text="@string/delete"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/NewCustomer_login"
@@ -128,5 +126,6 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
