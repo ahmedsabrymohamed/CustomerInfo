@@ -87,9 +87,6 @@ public class login extends AppCompatActivity {
                 //Log.d("ahmed", "onChildAdded: " + mBranch.password + "   " + password.getText().toString());
                 login = true;
                 Intent intent = new Intent(getBaseContext(), CustomersActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putParcelableArrayList("data2objects", branches);
-                intent.putExtras(mBundle);
                 intent.putExtra("branch_address", mBranch.key);
                 intent.putExtra("admin", false);
                 startActivity(intent);

@@ -30,6 +30,7 @@ public class NewBranch extends AppCompatActivity {
     private String dialog_pass;
     private ArrayList<Branch>data;
     private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class NewBranch extends AppCompatActivity {
         noaddress = (TextView) findViewById(R.id.noaddress_log);
         delete2=(Button)findViewById(R.id.NewBranch__delete_button);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Branches");
+        mDatabase2 = FirebaseDatabase.getInstance().getReference().child("Customers");
         Intent intent = getIntent();
         update=intent.getBooleanExtra("update_and_delete",false);
         Bundle bundle = getIntent().getExtras();
@@ -142,6 +144,35 @@ public class NewBranch extends AppCompatActivity {
 
 
     public void  delete2 (View view){
+        mDatabase2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Customer customer=dataSnapshot.getValue(Customer.class);
+                customer.key=dataSnapshot.getKey().toString();
+                if(customer.branch_address.equals(key))
+                    mDatabase2.child(customer.key).removeValue();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         mDatabase.child(key).removeValue();
         branchaddress.getText().clear();
         view.setVisibility(View.GONE);
