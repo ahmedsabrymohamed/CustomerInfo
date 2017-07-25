@@ -278,7 +278,8 @@ public class NewCustomerActivity extends AppCompatActivity {
         }
         if(admin==false)
             branch_address_value =intent.getStringExtra("branch_address");
-
+        else
+            branch_address_value="";
         mDatabaseReference2.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
